@@ -99,7 +99,7 @@ BEGIN
 	,0,0
 	,CONCAT('Depósitos en efectivo fraccionados en un mes calendario con un monto mayor o igual a ', FORMAT(@MontoAgrupado,'C','es-MX'))
 	,@MontoAgrupado,f.IdSocio,0
-	,CONCAT('Depósitos en efectivo fraccionados en un mes calendario con un monto mayor o igual a ', m.MontoAcumulado)
+	,CONCAT(f.Codigo,' ',f.Nombre,' Depósitos en efectivo fraccionados en un mes calendario con un monto mayor o igual a ', m.MontoAcumulado)
 	,1,101,-2
 	FROM @financieras f
 	INNER JOIN (

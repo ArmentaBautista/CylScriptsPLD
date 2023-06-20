@@ -8,11 +8,10 @@ END
 GO
 
 CREATE PROC pPLDinusualidadMontoEfectivoMayorMontoConfigurado
-@pIdoperacion		AS INT,
+@pIdOperacion		AS INT,
 @pIdSocio			AS INT,
 @pMontoSubOperacion	AS INT,
 @pIdMetodoPago		AS INT,
-@pIdPersona			AS INT,
 @pIdUsuarioAlta		AS INT,
 @pIdSesion			AS INT,
 @pIdTransaccionD	AS INT
@@ -36,16 +35,15 @@ DECLARE @IdTransaccionD		AS INT=0
 DECLARE @MontoReferencia	AS MONEY=100000
 
 -- Asignacion de variables locales
-SET @Idoperacion		= @pIdoperacion		
+SET @IdOperacion		= @pIdOperacion		
 SET @IdSocio			= @pIdSocio			
 SET @MontoSubOperacion	= @pMontoSubOperacion	
-SET @IdMetodoPago		= @pIdMetodoPago		
-SET @IdPersona			= @pIdPersona			
+SET @IdMetodoPago		= @pIdMetodoPago				
 SET @IdUsuarioAlta		= @pIdUsuarioAlta		
 SET @IdSesion			= @pIdSesion			
 SET @IdTransaccionD		= @pIdTransaccionD	
 
-	IF (@IdMetodoPago IN (-2,-10) AND @MontoSubOperacion>=100000)
+	IF (@IdMetodoPago IN (-2,-10) AND @MontoSubOperacion>=@MontoReferencia)
 	BEGIN
 
 		SET @IdPersona = (SELECT idpersona FROM dbo.tSCSsocios sc  WITH(NOLOCK) WHERE sc.IdSocio=@IdSocio)
@@ -77,7 +75,7 @@ SET @IdTransaccionD		= @pIdTransaccionD
 			IdMetodoPago
 		)
 		SELECT @IdPersona,1593,46,@MontoSubOperacion,1,@IdUsuarioAlta,1598,@IdSesion,CONCAT('Depósito en efectivo por: ', FORMAT(@MontoSubOperacion,'C','es-MX'))
-		,@Idoperacion,@IdTransaccionD,CONCAT('Depósito en efectivo mayor o igual a ', FORMAT(@MontoReferencia,'C','es-MX'))
+		,@IdOperacion,@IdTransaccionD,CONCAT('Depósito en efectivo mayor o igual a ', FORMAT(@MontoReferencia,'C','es-MX'))
 		,@MontoReferencia,@IdSocio,0,CONCAT('Depósito en efectivo por: ', FORMAT(@MontoSubOperacion,'C','es-MX'))
 		,1,100,@IdMetodoPago
 
